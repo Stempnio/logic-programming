@@ -87,7 +87,12 @@ sortuj([H|T], L) :- sortuj(T,S), wstaw(H,S,L).
 % ?- podlista2([1,2,2,3], [a,b,2,2,c,c,3,c,c,1]).
 %    false.
 
-% TODO - implement
+podlista2([], _).
+podlista2([H|T1], [H|T2]) :-
+   podlista2(T1,T2).
+podlista2([H1|T1], [H2|T2]) :-
+   H1 \== H2,
+   podlista2([H1|T1], T2).
 
 % g) permutacja(A, B) - uzgadnia listę B kolejno z permutacjami listy A.
 
