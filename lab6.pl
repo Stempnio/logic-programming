@@ -43,7 +43,23 @@ fib(N,A,B,F) :-
 % przekatna([[1,2],[3,4]], D).
 %    D = [1,4]
 
-% TODO - implement
+nty_el(N, [_|T], W) :-
+    N > 1,
+    N1 is N-1,
+    nty_el(N1, T, W).
+nty_el(N, [H|_], W) :-
+    N =:= 1,
+    W is H.
+
+przekatna(M, P) :- przekatna(M, 1, [], P).
+przekatna([], _, A, A).
+przekatna([H|T],N, A, P) :-
+    nty_el(N, H, E),
+    dodaj_na_koniec(E, A, A1),
+    N1 is N+1,
+    przekatna(T, N1, A1, P).
+
+
 
 % 3.
 
@@ -114,3 +130,11 @@ splaszcz([H|T], Acc, P) :-
 % odwroc([], A, A).
 % odwroc([H|T], A, R) :-
 %     odwroc(T, [H|A], R).
+
+
+
+% dl_listy(L, N) :- dl_listy(L, 0, N).
+% dl_listy([], N, N).
+% dl_listy([_|T], A, N) :-
+%     A1 is A+1,
+%     dl_listy(T, A1, N).
