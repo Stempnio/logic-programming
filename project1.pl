@@ -1,7 +1,7 @@
 % Ex 1
 available(Labyrinth, X, Y) :-
-    nth1(Y, Labyrinth, Row),
-    nth1(X, Row, Cell),
+    nth1(X, Labyrinth, Row),
+    nth1(Y, Row, Cell),
     Cell == o.
 
 move([X, Y], [X, Y1]) :- Y1 is Y - 1. 
@@ -37,30 +37,30 @@ display_row([X|T]) :-
     display_row(T).
 
 % Ex 3
-display_lab(Lab, Path) :-
-    display_lab(Lab, Path, 1).
+display_lab(Labyrinth, Path) :-
+    display_lab(1, Labyrinth, Path).
 
-display_lab([], _, _).
-display_lab([H|T], Path, Y) :-
-    display_row(H, Path, 1, Y),
-    NewY is Y + 1,
-    display_lab(T, Path, NewY).
+display_lab(_, [], _).
+display_lab(Row, [H|T], Path) :-
+    display_row(Row, 1, H, Path),
+    NextRow is Row + 1,
+    display_lab(NextRow, T, Path).
 
-display_row([], _, _, _) :- nl.
-display_row([_|T], Path, X, Y) :-
-    member([X,Y], Path),
+display_row(_, _, [], _) :- nl.
+display_row(Row, Col, [_|T], Path) :-
+    member([Row, Col], Path),
     write('.'),
-    NewX is X + 1,
-    display_row(T, Path, NewX, Y).
-display_row([Cell|T], Path, X, Y) :-
-    not(member([X,Y], Path)),
-    Cell == x,
-    write(x),
-    NewX is X + 1,
-    display_row(T, Path, NewX, Y).
-display_row([Cell|T], Path, X, Y) :-
-    not(member([X,Y], Path)),
-    not(Cell == x),
+    NextCol is Col + 1,
+    display_row(Row, NextCol, T, Path).
+display_row(Row, Col, [X|T], Path) :-
+    not(member([Row, Col], Path)),
+    X == x,
+    write(X),
+    NextCol is Col + 1,
+    display_row(Row, NextCol, T, Path).
+display_row(Row, Col, [X|T], Path) :-
+    not(member([Row, Col], Path)),
+    X == o,
     write(' '),
-    NewX is X + 1,
-    display_row(T, Path, NewX, Y).
+    NextCol is Col + 1,
+    display_row(Row, NextCol, T, Path).
