@@ -51,3 +51,36 @@ draw_horizontal_line(S1, X1, X2, Y, Z, S2) :-
     NextX is X1 + 1,
     draw_horizontal_line(S3, NextX, X2, Y, Z, S2).
 
+draw_diagonal_line(S1, X, Y, X, Y, Z, S2) :-
+    point(S1, [X, Y], Z, S2).
+
+draw_diagonal_line(S1, X1, Y1, X2, Y2, Z, S2) :-
+    X1 > X2, Y1 < Y2,
+    draw_diagonal_line(S1, X2, Y2, X1, Y1, Z, S2).
+
+draw_diagonal_line(S1, X1, Y1, X2, Y2, Z, S2) :-
+    X1 < X2, Y1 > Y2,
+    point(S1, [X1, Y1], Z, S3),
+    NextX is X1 + 1,
+    NextY is Y1 - 1,
+    draw_diagonal_line(S3, NextX, NextY, X2, Y2, Z, S2).
+
+draw_diagonal_line(S1, X1, Y1, X2, Y2, Z, S2) :-
+    X1 > X2, Y1 > Y2,
+    draw_diagonal_line(S1, X2, Y2, X1, Y1, Z, S2).
+
+draw_diagonal_line(S1, X1, Y1, X2, Y2, Z, S2) :-
+    X1 < X2, Y1 < Y2,
+    point(S1, [X1, Y1], Z, S3),
+    NextX is X1 + 1,
+    NextY is Y1 + 1,
+    draw_diagonal_line(S3, NextX, NextY, X2, Y2, Z, S2).
+
+line(S1, [X1, Y], [X2, Y], Z, S2) :-
+    draw_horizontal_line(S1, X1, X2, Y, Z, S2).
+
+line(S1, [X, Y1], [X, Y2], Z, S2) :-
+    draw_vertical_line(S1, X, Y1, Y2, Z, S2).
+
+line(S1, [X1, Y1], [X2, Y2], Z, S2) :-
+    draw_diagonal_line(S1, X1, Y1, X2, Y2, Z, S2).
