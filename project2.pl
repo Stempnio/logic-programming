@@ -100,4 +100,19 @@ draw_poly(S1,CurrentPoint, [FinalPoint], Z, S2) :-
 draw_poly(S1,CurrentPoint, [H|T], Z, S2) :-
     line(S1, CurrentPoint, H, Z, S3),
     draw_poly(S3, H, T, Z, S2).
+
+% Ex. 5
+
+clean(S1, X1, Y1, X2, Y2, S2) :-
+    X1 > X2, Y1 > Y2,
+    clean(S1, X2, Y2, X1, Y1, S2).
+
+clean(S1, X1, Y, X2, Y, S2) :-
+    line(S1, [X1, Y], [X2, Y], ' ', S2).
+
+clean(S1, X1, Y1, X2, Y2, S2) :-
+    Y1 < Y2,
+    line(S1, [X1, Y1], [X2, Y1], ' ', S3).
+    NextY is Y1+1,
+    clean(S3, [X1, NextY], [X2, Y2], S2).
     
