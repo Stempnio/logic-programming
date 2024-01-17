@@ -1,4 +1,4 @@
-% 1)
+% Ex. 1
 row(0, []).
 row(W, [' '|R]) :-
     W > 0,
@@ -11,7 +11,8 @@ canvas(W, H, [R|T]) :-
     NextH is H - 1, 
     row(W, R), 
     canvas(W, NextH, T).
-% 2)
+
+% Ex. 2
 
 replace_in_list([_|T], 0, Z, [Z|T]).
 replace_in_list([H|T], I, Z, [H|R]) :-
@@ -23,7 +24,8 @@ point(S1, [X, Y], Z, S2) :-
     nth0(Y, S1, Row),
     replace_in_list(Row, X, Z, NewRow),
     replace_in_list(S1, Y, NewRow, S2).
-% 3)
+
+% Ex. 3
 
 draw_vertical_line(S1, X, Y, Y, Z, S2):-
     point(S1, [X, Y], Z, S2).
@@ -84,3 +86,18 @@ line(S1, [X, Y1], [X, Y2], Z, S2) :-
 
 line(S1, [X1, Y1], [X2, Y2], Z, S2) :-
     draw_diagonal_line(S1, X1, Y1, X2, Y2, Z, S2).
+
+% Ex. 4
+
+poly(S1, L, Z, S2) :-
+	L = [H|T],
+	append(T, [H], NewList),
+    draw_poly(S1, H, NewList, Z, S2).
+
+draw_poly(S1,CurrentPoint, [FinalPoint], Z, S2) :-
+    line(S1, CurrentPoint, FinalPoint,Z, S2).
+
+draw_poly(S1,CurrentPoint, [H|T], Z, S2) :-
+    line(S1, CurrentPoint, H, Z, S3),
+    draw_poly(S3, H, T, Z, S2).
+    
