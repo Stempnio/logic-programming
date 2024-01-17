@@ -112,7 +112,24 @@ clean(S1, X1, Y, X2, Y, S2) :-
 
 clean(S1, X1, Y1, X2, Y2, S2) :-
     Y1 < Y2,
-    line(S1, [X1, Y1], [X2, Y1], ' ', S3).
+    line(S1, [X1, Y1], [X2, Y1], ' ', S3),
     NextY is Y1+1,
-    clean(S3, [X1, NextY], [X2, Y2], S2).
+    clean(S3, X1, NextY, X2, Y2, S2).
     
+% Ex. 6
+
+copy(S1, X, Y, [Line], S2) :-
+    copy_horizontal_line(S1, [X, Y], Line, S2).
+
+copy(S1, X, Y, [H|T], S2) :-
+    copy_horizontal_line(S1, [X,Y], H, S3),
+    NextY is Y+1,
+    copy(S3, X, NextY, T, S2).
+
+copy_horizontal_line(S1, Coordinate, [P], S2) :-
+    point(S1, Coordinate, P, S2).
+
+copy_horizontal_line(S1, [X,Y], [H|T], S2) :-
+    point(S1, [X, Y], H, S3),
+    NextX is X+1,
+    copy_horizontal_line(S3, [NextX, Y], T, S2).
